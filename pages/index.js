@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import Sidebar from '../Components/Sidebar'
-import {ConnectButton} from "@web3uikit/core";
+import {ConnectButton} from "web3uikit";
 const styles = {
   container : `h-full w-full flex bg-[#fff]`
 }
