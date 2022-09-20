@@ -7,42 +7,65 @@ export const AmazonProvider = ({ children }) => {
     const [nickname, setNickname] = useState('')
     const [username, setUsername] = useState('')
 
-    const{
+    const {
         authenticate,
         isAuthenticated,
         enableWeb3,
-        Moralis, 
+        Moralis,
         user,
         isWeb3Enabled,
+      } = useMoralis()
+      
+    const {
+        data: userData,
+        error: userDataError,
+        isLoading: userDataIsLoading,
+      } = useMoralisQuery('_User')
 
-    } = useMoralis()
 
-    useEffect(()=>{
-            ;(async()=>{
-                if(isAuthenticated){
-                    const currentUsername = await user?.get('nickname')
-                }
-            })()    
-    },[isAuthenticated, user, username])
-
-    const handleSetUsername =() =>{
-        if(user){
-            if(nickname){
-                user.set('nickname',nickname)
-                user.save()
-                setNickname('')
-            }else{
-                console.log("Cant set empty nickname")
-            }
+      useEffect(async () => {
+        if (!isWeb3Enabled) {
+          await enableWeb3()
         }
-    }
+   
+    
+        if (isAuthenticated) {
+
+          const currentUsername = await user?.get('nickname')
+          setUsername(currentUsername)
+        } else {
+        
+        }
+      }, [
+        isWeb3Enabled,
+        isAuthenticated,
+        authenticate,
+        setUsername,
+        user,
+        username,
+      ])
+
+    const handleSetUsername = () => {
+        if (user) {
+          if (nickname) {
+            user.set('nickname', nickname)
+            user.save()
+            setNickname('')
+          } else {
+            console.log("Can't set empty nickname")
+          }
+        } else {
+          console.log('No user')
+        }
+      }
+    
     return (<AmazonContext.Provider 
     value= {{
             isAuthenticated,
             nickname,
             setNickname,
             username,
-            setUsername
+            handleSetUsername
 
     }   }
     >
