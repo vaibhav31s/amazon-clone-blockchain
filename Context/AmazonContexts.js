@@ -6,6 +6,8 @@ export const AmazonContext = createContext()
 export const AmazonProvider = ({ children }) => {
     const [nickname, setNickname] = useState('')
     const [username, setUsername] = useState('')
+    const [assets, setAssets] = useState([])
+
 
     const {
         authenticate,
@@ -22,6 +24,17 @@ export const AmazonProvider = ({ children }) => {
         isLoading: userDataIsLoading,
       } = useMoralisQuery('_User')
 
+      const {
+        data: assetsData,
+        error: assetsDataError,
+        isLoading: assetsDataIsLoading,
+      } = useMoralisQuery('assets')
+      useEffect(async () => {
+        console.log(assetsData)
+        await enableWeb3()
+        await getAssets()
+        await getOwnedAssets()
+      }, [userData, assetsData, assetsDataIsLoading, userDataIsLoading])
 
       useEffect(async () => {
         if (!isWeb3Enabled) {
@@ -44,6 +57,21 @@ export const AmazonProvider = ({ children }) => {
         user,
         username,
       ])
+      const getOwnedAssets = async () => {
+        try {
+          // let query = new Moralis.Query('_User')
+          // let results = await query.find()
+    
+          if (userData[0]) {
+            setOwnedItems(prevItems => [
+              ...prevItems,
+              userData[0].attributes.ownedAsset,
+            ])
+          }
+        } catch (error) {
+          console.log(error)
+        }
+      }
 
     const handleSetUsername = () => {
         if (user) {
@@ -58,14 +86,25 @@ export const AmazonProvider = ({ children }) => {
           console.log('No user')
         }
       }
+      const getAssets = async () => {
+        try {
+          await enableWeb3()
+          // const query = new Moralis.Query('Assets')
+          // const results = await query.find()
     
+          setAssets(assetsData)
+        } catch (error) {
+          console.log(error)
+        }
+      }
     return (<AmazonContext.Provider 
     value= {{
             isAuthenticated,
             nickname,
             setNickname,
             username,
-            handleSetUsername
+            handleSetUsername,
+            assets
 
     }   }
     >
