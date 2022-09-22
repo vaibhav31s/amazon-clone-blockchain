@@ -16,8 +16,7 @@ import 'react-simple-hook-modal/dist/styles.css'
 
 
 const Header = () => {
-    const { balance, buyTokens, getBalance } = useContext(AmazonContext)
-
+   
     const styles = {
     container: `h-[60px] w-full flex items-center gap-5 px-16 mb-[50px]`,
     logo: `flex items-center ml-[20px] cursor-pointer flex-1`,
@@ -28,7 +27,7 @@ const Header = () => {
     coins: `ml-[10px]`,
   }
 
-
+  const { balance, buyTokens, getBalance } = useContext(AmazonContext)
   const { openModal, isModalOpen, closeModal } = useModal()
   return (
     <ModalProvider>
@@ -61,7 +60,7 @@ const Header = () => {
               {balance}
               <FaCoins className={styles.coins} />
               <Modal isOpen={isModalOpen} transition={ModalTransition.SCALE}>
-                <BuyModel close={closeModal} />
+                <BuyModel close={closeModal} buyTokens={buyTokens} />
               </Modal>
             </div>
           ) : (
@@ -71,7 +70,7 @@ const Header = () => {
             >
               0 AC <FaCoins className={styles.coins} />
               <Modal isOpen={isModalOpen} transition={ModalTransition.SCALE}>
-                <BuyModel close={closeModal} />
+                <BuyModel close={closeModal} buyTokens={buyTokens} />
               </Modal>
             </div>
           )}

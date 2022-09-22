@@ -2,6 +2,7 @@ import React,{ useContext, useEffect }  from 'react'
 import { AmazonContext } from '../Context/AmazonContexts'
 import Cards from './Cards'
 import Header from './Header'
+import Features from './Features'
 const Main = () => {
     const styles = {
         container: `h-full w-full flex flex-col mt-[50px] pr-[50px] overflow-hidden`,
@@ -12,7 +13,7 @@ const Main = () => {
     return (
     <div  className={styles.container}>
     <Header/>
-    {/* <Featured/> */}
+    <Features/>
     <Cards/>
     
     

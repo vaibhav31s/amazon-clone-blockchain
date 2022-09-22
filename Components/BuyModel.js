@@ -4,7 +4,7 @@ import { AmazonContext } from '../Context/AmazonContexts'
 import { HashLoader } from 'react-spinners'
 import Link from 'next/link'
 
-const BuyModal = ({ close, buyTokens }) => {
+const BuyModal =  ({ close, buyTokens }) => {
   const styles = {
     container: `h-full w-full flex flex-col `,
     closeX: `w-full h-[50px] flex items-center justify-end mb-[20px]`,
@@ -55,6 +55,7 @@ const BuyModal = ({ close, buyTokens }) => {
                 close()
                 setAmountDue('')
                 setTokenAmount('')
+                setEtherscanLink('')
               }}
               fontSize={50}
               className='cursor-pointer'
@@ -105,5 +106,6 @@ const BuyModal = ({ close, buyTokens }) => {
     </div>
   )
 }
+
 
 export default BuyModal
