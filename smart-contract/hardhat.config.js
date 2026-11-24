@@ -1,25 +1,27 @@
-require("@nomicfoundation/hardhat-toolbox");
-require("@nomicfoundation/hardhat-chai-matchers");
-// require('dotenv').config({ path: '.env' })
+import hardhatToolboxMochaEthers from "@nomicfoundation/hardhat-toolbox-mocha-ethers";
+import { defineConfig, task } from "hardhat/config";
 
-task('accounts', 'Prints the list of accounts', async () => {
-  const accounts = await hre.ethers.getSigners()
+const accountsTask = task("accounts", "Prints the list of accounts")
+  .setInlineAction(async (_args, hre) => {
+    const { ethers } = await hre.network.getOrCreate();
+    const accounts = await ethers.getSigners();
 
-  for (const account of accounts) {
-    console.log(account.address)
-  }
-})
+    for (const account of accounts) {
+      console.log(account.address);
+    }
+  })
+  .build();
 
-module.exports = {
-  solidity: '0.8.4',
-  
-}
-
-
+export default defineConfig({
+  plugins: [hardhatToolboxMochaEthers],
+  tasks: [accountsTask],
+  solidity: "0.8.28",
+});
 
 // networks: {
-//   rinkeby: {
-//     url: process.env.SPEEDY_NODE_URL,
-//     accounts: [process.env.WALLET_PRIVATE_KEY],
+//   sepolia: {
+//     type: "http",
+//     url: configVariable("SEPOLIA_RPC_URL"),
+//     accounts: [configVariable("WALLET_PRIVATE_KEY")],
 //   },
 // },

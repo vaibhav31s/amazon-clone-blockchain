@@ -1,12 +1,12 @@
-const hre = require('hardhat')
+import { network } from 'hardhat'
 
 async function main() {
-  const amazonCoinFactory = await hre.ethers.getContractFactory('AmazonCoin')
-  const amazonCoin = await amazonCoinFactory.deploy()
+  const { ethers } = await network.getOrCreate()
+  const amazonCoin = await ethers.deployContract('AmazonCoin')
 
-  await amazonCoin.deployed()
+  await amazonCoin.waitForDeployment()
 
-  console.log('Amazon Coin deployed to:', amazonCoin.address)
+  console.log('Amazon Coin deployed to:', await amazonCoin.getAddress())
 }
 
 main()
