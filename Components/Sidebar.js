@@ -6,7 +6,6 @@ import { FaBox } from 'react-icons/fa'
 import { BsFillBookmarkFill } from 'react-icons/bs'
 import { BsFillPersonFill } from 'react-icons/bs'
 import { AmazonContext } from '../Context/AmazonContexts'
-import { ConnectButton } from 'web3uikit'
 import { AiOutlineHistory } from 'react-icons/ai'
 import Link from 'next/link'
 
@@ -27,6 +26,7 @@ const Sidebar = () => {
     usernameInput: `bg-transparent border-white border-2 rounded-lg w-[80%] py-2 px-4 text-lg mt-[20px] placeholder:text-white focus:outline-none flex justify-center items-center text-white`,
     username: `flex items-center w-full justify-center`,
     setNickname: `text-lg font-bold flex flex-1 items-center mt-[20px] mb-[20px] text-white`,
+    connectWalletButton: `rounded-xl bg-[#fb9701] px-6 py-3 text-lg font-bold text-white`,
   }
   const { 
     isAuthenticated,
@@ -34,6 +34,8 @@ const Sidebar = () => {
     setNickname,
     username,
     handleSetUsername,
+    connectWallet,
+    formattedAccount,
 } = useContext(AmazonContext)
   return (
     <div className={styles.container}>
@@ -75,7 +77,9 @@ const Sidebar = () => {
         </>
       )}
       <div className={styles.connectButton}>
-        <ConnectButton />
+        <button className={styles.connectWalletButton} onClick={connectWallet}>
+          {isAuthenticated && formattedAccount ? formattedAccount : 'Connect Wallet'}
+        </button>
       </div>
     </div>
     <div className={styles.menu}>

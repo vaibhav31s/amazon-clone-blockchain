@@ -34,7 +34,7 @@ const BuyModal =  ({ close, buyTokens }) => {
   }, [tokenAmount])
 
   const calculatePrice = () => {
-    const price = parseFloat(tokenAmount * 0.0001)
+    let price = parseFloat(tokenAmount * 0.0001)
     price = price.toFixed(4)
     setAmountDue(price)
   }

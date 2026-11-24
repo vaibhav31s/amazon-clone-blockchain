@@ -1,9 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
   images: {
-    domains: [
+    remotePatterns: [
       'lh3.googleusercontent.com',
       'openseauserdata.com',
       'brand.assets.adidas.com',
@@ -13,10 +12,8 @@ const nextConfig = {
       'media3.giphy.com',
       'media2.giphy.com',
       'media4.giphy.com',
-    ],
+    ].map(hostname => ({ protocol: 'https', hostname })),
   },
 }
-
-
 
 module.exports = nextConfig

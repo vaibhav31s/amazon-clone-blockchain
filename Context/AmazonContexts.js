@@ -40,32 +40,36 @@ export const AmazonProvider = ({ children }) => {
     isLoading: assetsDataIsLoading,
   } = useMoralisQuery('assets')
 
-  useEffect(async () => {
-    console.log(assetsData)
-    await enableWeb3()
-    await getAssets()
-    await getOwnedAssets()
+  useEffect(() => {
+    ;(async () => {
+      console.log(assetsData)
+      await enableWeb3()
+      await getAssets()
+      await getOwnedAssets()
+    })()
   }, [userData, assetsData, assetsDataIsLoading, userDataIsLoading])
 
-  useEffect(async () => {
-    if (!isWeb3Enabled) {
-      await enableWeb3()
-    }
-    await listenToUpdates()
+  useEffect(() => {
+    ;(async () => {
+      if (!isWeb3Enabled) {
+        await enableWeb3()
+      }
+      await listenToUpdates()
 
-    if (isAuthenticated) {
-      await getBalance()
-      const currentUsername = await user?.get('nickname')
-      setUsername(currentUsername)
-      const account = await user?.get('ethAddress')
-      setCurrentAccount(account)
-      const formatAccount = account.slice(0, 5) + '...' + account.slice(-5)
-      setFormattedAccount(formatAccount)
-    } else {
-      setCurrentAccount('')
-      setFormattedAccount('')
-      setBalance('')
-    }
+      if (isAuthenticated) {
+        await getBalance()
+        const currentUsername = await user?.get('nickname')
+        setUsername(currentUsername)
+        const account = await user?.get('ethAddress')
+        setCurrentAccount(account)
+        const formatAccount = account.slice(0, 5) + '...' + account.slice(-5)
+        setFormattedAccount(formatAccount)
+      } else {
+        setCurrentAccount('')
+        setFormattedAccount('')
+        setBalance('')
+      }
+    })()
   }, [
     isWeb3Enabled,
     isAuthenticated,
@@ -88,9 +92,9 @@ export const AmazonProvider = ({ children }) => {
       await connectWallet()
     }
 
-    const amount = ethers.BigNumber.from(tokenAmount)
-    const price = ethers.BigNumber.from('100000000000000')
-    const calcPrice = amount.mul(price)
+    const amount = BigInt(tokenAmount)
+    const price = ethers.parseEther('0.0001')
+    const calcPrice = amount * price
 
     console.log(amazonCoinAddress)
 
@@ -98,9 +102,9 @@ export const AmazonProvider = ({ children }) => {
       contractAddress: amazonCoinAddress,
       functionName: 'mint',
       abi: amazonAbi,
-      msgValue: calcPrice,
+      msgValue: calcPrice.toString(),
       params: {
-        amount,
+        amount: amount.toString(),
       },
     }
     const transaction = await Moralis.executeFunction(options)
@@ -238,6 +242,7 @@ export const AmazonProvider = ({ children }) => {
         setEtherscanLink,
         etherscanLink,
         buyAsset,
+        connectWallet,
         currentAccount,
         nickname,
         setNickname,
