@@ -26,6 +26,7 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # local env files
+.env
 .env*.local
 
 # vercel
@@ -35,26 +36,15 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-node_modules
-.env
-coverage
-coverage.json
-typechain
-typechain-types
+package-lock.json
 
-#Hardhat files
-cache
-artifacts
+# env files (may contain secrets)
+.env*
+!.env.example
 
-
-node_modules
-.env
-coverage
-coverage.json
-typechain
-typechain-types
-
-#Hardhat files
-cache
-artifacts
-
+# contracts (Foundry)
+/contracts/out/
+/contracts/cache/
+/contracts/lib/
+/contracts/broadcast/
+tsconfig.tsbuildinfo
